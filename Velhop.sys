@@ -1,0 +1,31 @@
+/* Velhop
+ * Author: 
+ * Creation date: 26/05/18
+ */
+SYSTEM
+    Velhop
+SETS 
+    VELOS = {v1,v2,v3,v4,v5,v6,v7,v8,v9,v10,v11,v12};
+    USAGERS;
+    BORNES = {b1,b2,b3,b4,b5,b6};
+    GARES = {g1,g2,g3,g4};
+    ETATS_VELO = {bon_etat, use, abime};
+    ETATS_USAGER = {actif, bloque};
+VARIABLES
+    velos; usagers; gares; bornes; etats_v; etat_u; emprunt; stationnement
+INVARIANT
+    velos <: VELOS &
+    usagers <: STRING &
+    gares <: GARES &
+    bornes : gare --> BORNES &
+    etat_v : velos --> ETATS_VELO &
+    etat_u : usagers --> ETATS_USAGER &
+    emprunt : usagers >+> velos &
+    stationnement : bornes >+> velos &
+    (!v v:velos => card(emprunt~[{v}]) <= 1) &
+    ((etat_u~[{bloque}] /\ ran(emprunt)) = {}) &
+    ((dom(emprunt) /\ dom(stationnement)) = {}) &
+    (((etat~[{use}]\/etat~[{abuse}]) /\ dom(emprunt)) = {} ) &
+    
+
+END
